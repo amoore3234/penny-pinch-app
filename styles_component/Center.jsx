@@ -5,6 +5,7 @@ export const Center = ({children}) => {
   return (
     <View
     style={{
+      margin: 20,
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center'
