@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import { Center } from './styles_component/Center';
 import {  Border } from './styles_component/Border';
 
-import { MonthlyReport, Debt, OpeningPage } from './Screens';
+import { MonthlyReport, AddExpenses, OpeningPage, SubscriptionExpense } from './Screens';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +15,8 @@ export default () => {
     <Stack.Navigator>
       <Stack.Screen name="OpeningPage" component={OpeningPage} />
       <Stack.Screen name="MonthlyReport" component={MonthlyReport} />
-      <Stack.Screen name="Debt" component={Debt} />
+      <Stack.Screen name="AddExpenses" component={AddExpenses} />
+      <Stack.Screen name="SubscriptionExpense" component={SubscriptionExpense} />
     </Stack.Navigator>
   </NavigationContainer>
   );

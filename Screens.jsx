@@ -1,13 +1,14 @@
 import React from "react";
 import moment from "moment";
-import { CurrencyInput, FakeCurrencyInput, formatNumber} from "react-native-currency-input";
+import { FakeCurrencyInput, formatNumber} from "react-native-currency-input";
 import { useState, useEffect} from 'react';
-import { Button, Text, StyleSheet, View, SafeAreaView } from 'react-native';
-import { TextInput, Surface } from 'react-native-paper';
+import { Button, Text, StyleSheet, View, SafeAreaView, Image } from 'react-native';
 import { Center } from './styles_component/Center';
-import { Border } from './styles_component/Border';
 import { RoundedBorder } from './styles_component/RoundedBorder';
 import { CenterElements } from './styles_component/CenterElements';
+import { RoundedBorderSummary } from './styles_component/RoundedBorderSummary';
+import { SquareRoundedBorder } from './styles_component/SquareRoundedBorder';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export const OpeningPage = ({navigation}) => {
   const[budget, setBudget] = useState(0);
@@ -79,107 +80,148 @@ export const OpeningPage = ({navigation}) => {
   );
   
 };
-/*export const SavingOptions = ({navigation}) => {
-  return (
-  <Center>
-    <Button
-      title="Financial Goal"
-      onPress={() => navigation.push('FinancialGoal') }
-    />
-    <Button
-      title="Reducing Credit Card Debt"
-      onPress={() => navigation.push('Debt')}
-    />
-  </Center>
-  );
-
-};*/
 
 export const MonthlyReport = ({route, navigation}) => {
   const[currentDate, setCurrentDate] = useState('');
+  const[subsAmount, setSubsAmount] = useState(78);
   const {beginAmount, savingsGoal, subs, creditCard, auto, grocery, living, entertainment} = route.params;
 
   useEffect(() => {
     let month = moment();
     setCurrentDate(month.format('MMMM'));
+    setSubsAmount(subsAmount);
   }, []);
 
   return (
     <SafeAreaView style={{marginTop: 5}}>
-      
         <CenterElements>
-        <RoundedBorder>
-        <Text style={{fontSize: 17, fontWeight: 'bold'}}>{currentDate}'s Budget</Text>
-        <Text style={styles.CurrencyStyle}>{beginAmount}</Text>
-        <Text style={{fontSize: 11, color: '#1281CB'}}>Add more funds</Text>
-        </RoundedBorder>
+          <RoundedBorder>
+            <Text style={{fontSize: 17, fontWeight: 'bold'}}>{currentDate}'s Budget</Text>
+            <Text style={styles.CurrencyStyle}>{beginAmount}</Text>
+            <Text style={{fontSize: 11, color: '#1281CB'}}>Add more funds</Text>
+          </RoundedBorder>
         </CenterElements>
 
         <CenterElements>
-        <RoundedBorder>
-        <Text style={{fontSize: 17, fontWeight: 'bold'}}>Savings Goal</Text>
-        <Text style={styles.CurrencyStyle}>{savingsGoal}</Text>
-        </RoundedBorder>
+          <RoundedBorder>
+            <Text style={{fontSize: 17, fontWeight: 'bold'}}>Savings Goal</Text>
+            <Text style={styles.CurrencyStyle}>{savingsGoal}</Text>
+            
+          </RoundedBorder>
         </CenterElements>
-      
+
+        <CenterElements>
+          <RoundedBorderSummary>
+
+            <Text style={{fontSize: 17, fontWeight: 'bold', textAlign: 'center'}}>Expense Summary</Text>
+            
+            <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: 10}}>
+
+              <View style={{flexDirection: 'row'}}>
+                <Image style={{height: 30, width: 31}} source={require('./assets/images/subscription.png')} />  
+                <Text style={styles.ExpenseSummarySub}>{formatNumber(subsAmount, {delimiter: ",", prefix: "$"})}</Text>
+              </View>
+              
+              <View style={{flexDirection: 'row'}}>
+                <Image style={{height: 30, width: 31}} source={require('./assets/images/creditCard.png')} />  
+                <Text style={styles.ExpenseSummaryCard}>{formatNumber(creditCard, {delimiter: ",", prefix: "$"})}</Text>
+              </View>
+
+              <View style={{flexDirection: 'row'}}>
+                <Image style={{height: 30, width: 31}} source={require('./assets/images/car.png')} />  
+                <Text style={styles.ExpenseSummaryAuto}>{formatNumber(auto, {delimiter: ",", prefix: "$"})}</Text>
+              </View>
+            </View>
+
+            <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: 12}}>
+
+              <View style={{flexDirection: 'row'}}>
+                <Image style={{height: 30, width: 31}} source={require('./assets/images/groceries.png')} />  
+                <Text style={styles.ExpenseSummaryGrocery}>{formatNumber(grocery, {delimiter: ",", prefix: "$"})}</Text>
+              </View>
+
+              <View style={{flexDirection: 'row'}}>
+                <Image style={{height: 30, width: 31}} source={require('./assets/images/living.png')} />  
+                <Text style={styles.ExpenseSummaryLiving}>{formatNumber(living, {delimiter: ",", prefix: "$"})}</Text>
+              </View>
+
+              <View style={{flexDirection: 'row'}}>
+                <Image style={{height: 30, width: 31}} source={require('./assets/images/island.png')} />  
+                <Text style={styles.ExpenseSummaryEntertainment}>{formatNumber(entertainment, {delimiter: ",", prefix: "$"})}</Text>
+              </View>
+            </View>
+          </RoundedBorderSummary>
+        </CenterElements>
+      <View style={{margin: 10}}>
+        <Button
+        
+        title="Add Expenses"
+        color='#261FE6'
+        onPress={()=> {
+          navigation.navigate('AddExpenses', {
+            subscribe: subsAmount,
+            creditCards: creditCard,
+            autos: auto,
+            groceries: grocery,
+            livings: living,
+            entertainments: entertainment,
+          })
+        }}
+      />
+      </View>
     </SafeAreaView>
     
   );
 
 };
 
-export const Debt = () => {
-
-  const[amountLeft, setAmountLeft] = useState(0);
-  const[apr, setAPR] = useState(0);
-  const[minPayment, setMinPayment] = useState(0);
-  const[months, setMonths] = useState(0);
-  const[monthlyInterest, setMonthlyInterest] = useState(0);
-  const[principle, setPrinciple] = useState(0);
-  const[finalBalance, setFinalBalace] = useState(0);
-  const[interest, setInterest] = useState(0);
-
-  const payOff = () => {
-     
-  		setMonthlyInterest(amountLeft * ((apr/365) * 30));
+export const AddExpenses = ({route, navigation}) => {
+  const {subscribe, creditCards, autos, groceries, livings, entertainments} = route.params;
+  
 
 
-
-  }
     return (
-    <Center>
-    <Border>
-      <Text>Loan Amount</Text>
-      <TextInput
-        placeholder="0"
-        keyboardType={'numeric'}
-        onChangeText={num => setAmountLeft(num)}
-        value={amountLeft}
-      />
-      <Text>APR:</Text>
-      <TextInput
-        placeholder="0"
-        keyboardType={'numeric'}
-        onChangeText={num => setAPR(num)}
-        value={apr}
-      />
-      <Text>Minimum Monthly Payment</Text>
-      <TextInput
-        placeholder="0"
-        keyboardType={'numeric'}
-        onChangeText={num => setMinPayment(num)}
-        value={minPayment}
-      />
+    <SafeAreaView>
+      <TouchableOpacity onPress={() => {
+        navigation.navigate('SubscriptionExpense', {
+          subExpense: subscribe
+        })
+      }}>
+        <SquareRoundedBorder>
+          <Image style={{height: 50, width: 49}} source={require('./assets/images/subscription.png')} />
+          <Text>Subscriptions</Text>
+          <Text>{subscribe}</Text>
+         </SquareRoundedBorder>
+        </TouchableOpacity> 
+    </SafeAreaView>
+    );
+};
 
-      <Button
-      title="Submit"
-      onPress={payOff}
-       />
+export const SubscriptionExpense = ({route, navigation}) => {
+  const {subExpense} = route.params;
 
-      <Text>Total Interest {months}</Text>
-    </Border>
-  </Center>
-);
+  const[items, setItems] = useState([
+    { subName: '', subCost: subExpense}
+  ]);
+
+  const[addSubName, setAddSubName] = useState('');
+  const[addSubCost, setAddSubCost] = useState(0);
+
+  const handleButton = () => {
+
+    const newItem = {
+        subName: addSubName,
+        subCost: addSubCost
+    }
+
+    const newItems = [...items, newItem];
+
+    setItems(newItems);
+    setAddSubName('');
+    setAddSubCost('');
+    
+  }
+  return(<View></View>);
 };
 
 const styles = StyleSheet.create({
@@ -209,6 +251,48 @@ const styles = StyleSheet.create({
     fontSize: 35, 
     fontWeight: 'bold', 
     color: '#048F1B'
-  }
+  },
+
+  ExpenseSummarySub: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#E20D31'
+  },
+
+  ExpenseSummaryCard: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#261FE6'
+  },
+
+  ExpenseSummaryAuto: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#0B7E82'
+  },
+
+  ExpenseSummaryGrocery: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#BF5D11'
+  },
+
+  ExpenseSummaryLiving: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#690BF8'
+  },
+
+  ExpenseSummaryLiving: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#690BF8'
+  },
+
+  ExpenseSummaryEntertainment: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#0C6705'
+  },
 
 });

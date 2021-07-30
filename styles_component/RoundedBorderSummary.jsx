@@ -1,19 +1,16 @@
 import React from "react";
-import { View } from 'react-native';
 import { Surface } from 'react-native-paper';
 
-export const RoundedBorder = ({children}) => {
+export const RoundedBorderSummary = ({children}) => {
     return (
     <Surface
         style={{
-            
             borderRadius: 10,
             paddingTop: 10,
             width: 400,
-            height: 100,
-            alignItems: 'center',
+            height: 130,
             elevation: 5
-        
+            
         }}>
         {children}
     </Surface>
