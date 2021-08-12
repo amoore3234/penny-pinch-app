@@ -59,12 +59,6 @@ export const StartPage = ({navigation}) => {
             navigation.navigate('MonthlyReport', {
               monthlyBudget: budget,
               savings: goal,
-              subs: 0,
-              creditCard: 0,
-              auto: 0,
-              grocery: 0,
-              living: 0,
-              entertainment: 0,
             })
           }}
         />

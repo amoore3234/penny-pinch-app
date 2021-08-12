@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @react-native-async-storage/asynce-storage
+  C:\Program Files\nodejs\node.exe C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @react-native-vector-icons/MaterialCommunityIcons
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\moore\Android\gradle\Gradle\bin;C:\Users\moore\Android\tools\bin;C:\Users\moore\Android\emulator;C:\Users\moore\Android\platform-tools;C:\Users\moore\Android\nodejs;C:\Users\moore\Android\npm;C:\Program Files\Java\jdk1.8.0_212\bin;C:\Users\moore\Android\build-tools\28.0.3;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Users\moore\AppData\Local\Microsoft\WindowsApps;C:\Users\moore\AppData\Roaming\npm;C:\Users\moore\AppData\Local\atom\bin;C:\Users\moore\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\moore\.dotnet\tools;C:\Users\moore\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Azure Data Studio\bin;C:\Program Files\MongoDB\Server\4.4\bin;
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@react-native-async-storage%2fasynce-storage: Not found
+  Error: https://registry.yarnpkg.com/@react-native-vector-icons%2fMaterialCommunityIcons: Not found
       at Request.params.callback [as _callback] (C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
       at Request.self.callback (C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
       at Request.emit (events.js:315:20)
@@ -37,8 +37,10 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@react-native-async-storage/async-storage": "react-native-async-storage/async-storage",
       "@react-native-community/masked-view": "0.1.10",
       "@react-navigation/bottom-tabs": "^5.11.3",
+      "@react-navigation/material-bottom-tabs": "^6.0.3",
       "@react-navigation/native": "^5.9.0",
       "@react-navigation/stack": "^5.13.0",
       "expo": "~40.0.0",
@@ -1752,6 +1754,12 @@ Lockfile:
       "@babel/runtime" "^7.7.2"
       regenerator-runtime "^0.13.3"
   
+  "@react-native-async-storage/async-storage@react-native-async-storage/async-storage":
+    version "1.13.0"
+    resolved "https://codeload.github.com/react-native-async-storage/async-storage/tar.gz/58f5f0e066c97c1932fe29f23dd120ae67f6f71f"
+    dependencies:
+      deep-assign "^3.0.0"
+  
   "@react-native-community/cli-debugger-ui@^4.13.1":
     version "4.13.1"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.13.1.tgz#07de6d4dab80ec49231de1f1fbf658b4ad39b32c"
@@ -1905,6 +1913,18 @@ Lockfile:
       nanoid "^3.1.15"
       query-string "^6.13.6"
       react-is "^16.13.0"
+  
+  "@react-navigation/elements@^1.0.3":
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.0.3.tgz#23052dc9c9766614c629a400fc96a600176ab1a3"
+    integrity sha512-hDf55C65kD7X09r4p9Z74xuCLe2damL+i7v0YLM3AFD0TEkDiGwRczhsoZFm8gg/TIJpLqa+CjqX2gvrdQyQ+A==
+  
+  "@react-navigation/material-bottom-tabs@^6.0.3":
+    version "6.0.3"
+    resolved "https://registry.yarnpkg.com/@react-navigation/material-bottom-tabs/-/material-bottom-tabs-6.0.3.tgz#6776775fc434547ec0a2d4a7a1dc946fe16fa6e3"
+    integrity sha512-TttWPSMRQSNv+HbCzwzuFrPtIqvay7BuTRbCq6Uu0NSLS1ZKGBMDQbPkCk5YuPNgpZ1UKxXJYUvaDf3qmxs6Cg==
+    dependencies:
+      "@react-navigation/elements" "^1.0.3"
   
   "@react-navigation/native@^3.8.4":
     version "3.8.4"

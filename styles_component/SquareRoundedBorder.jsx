@@ -12,7 +12,7 @@ export const SquareRoundedBorder = ({children}) => {
             paddingTop: 10,
             margin: 7,
             width: width/2 - 20,
-            height: height -575,
+            height: 160,
             elevation: 5
             
         }}>

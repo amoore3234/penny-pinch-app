@@ -1,7 +1,7 @@
 import React from "react";
 import { formatNumber} from "react-native-currency-input";
 import { useState, useEffect} from 'react';
-import { Text, View, SafeAreaView, Image } from 'react-native';
+import { Text, View, SafeAreaView, Image, Button} from 'react-native';
 import { SquareRoundedBorder } from '../styles_component/SquareRoundedBorder';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -15,14 +15,18 @@ export const ExpenseList = ({ route, navigation}) => {
   const[entertainmentInfo, setEntertainmentInfo] = useState(entertainments);
 
   useEffect(() => {
-    setSubsInfo(subsInfo);
-    setCardInfo(cardInfo);
-    setAutosInfo(autosInfo);
-    setGroceriesInfo(groceriesInfo);
-    setLivingsInfo(livingsInfo);
-    setEntertainmentInfo(entertainmentInfo);
+    
+    return () => {}
   },[])
 
+  const getTotals = () => {
+    setSubsInfo(subscribe);
+    setCardInfo(creditCards);
+    setAutosInfo(autos);
+    setGroceriesInfo(groceries);
+    setLivingsInfo(livings);
+    setEntertainmentInfo(entertainments);
+  }
 
     return (
     <SafeAreaView>
@@ -106,6 +110,25 @@ export const ExpenseList = ({ route, navigation}) => {
           </TouchableOpacity>
          </SquareRoundedBorder>
         </View>
+
+        <Button
+            title="Get Results"
+            onPress={() => {
+                navigation.navigate('MonthlyReport', {
+                    subs: subscribe,
+                    creditCard: creditCards,
+                    auto: autos,
+                    grocery: groceries,
+                    living: livings,
+                    entertainment: entertainments
+                })
+            }}
+        />
+
+        <Button 
+            title="Get Totals"
+            onPress={getTotals}
+        />
 
     </SafeAreaView>
     );

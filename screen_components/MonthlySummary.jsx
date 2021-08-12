@@ -1,18 +1,21 @@
 import React from "react";
 import moment from "moment";
-import { FakeCurrencyInput, formatNumber} from "react-native-currency-input";
+import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import { formatNumber} from "react-native-currency-input";
 import { useState, useEffect} from 'react';
-import { Button, Text, StyleSheet, View, SafeAreaView, Image } from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, Image } from 'react-native';
 import { RoundedBorder } from '../styles_component/RoundedBorder';
 import { CenterElements } from '../styles_component/CenterElements';
 import { RoundedBorderSummary } from '../styles_component/RoundedBorderSummary';
+import { TouchableHighlight } from "react-native-gesture-handler";
+
 
 
 export const MonthlySummary = ({route, navigation}) => {
-    
-  const {monthlyBudget, subs, savings, creditCard, auto, grocery, living, entertainment} = route.params;
+
+  const { monthlyBudget, savings, subs, creditCard, auto, grocery, living, entertainment } = route.params;
+  
   const[currentDate, setCurrentDate] = useState('');
-  const[budget, setBudget] = useState(0);
   const[monthBudget, setMonthBudget] = useState(monthlyBudget);
   
   
@@ -23,12 +26,6 @@ export const MonthlySummary = ({route, navigation}) => {
   const[groceryAmount, setGroceryAmount] = useState(grocery);
   const[livingAmount, setLivingAmount] = useState(living);
   const[entertainmentAmount, setEntertainmentAmount] = useState(entertainment);
-
-  const[isFocused, setIsFocused] = useState(false);
-
-  const handleFocusBudget = () => setIsFocused(true);
-
-  const handleBlurBudget = () => setIsFocused(false);
   
 
 
@@ -39,12 +36,6 @@ export const MonthlySummary = ({route, navigation}) => {
     add();
   }, []);
 
-  const result = () => {
-
-    setMonthBudget(monthBudget - subs);
-    setSubsAmount(subsAmount + subs);
-    
-  }
 
   const add = () => {
     setMonthBudget(monthlyBudget - (subs + creditCard + auto + grocery + living + entertainment));
@@ -55,26 +46,11 @@ export const MonthlySummary = ({route, navigation}) => {
     setLivingAmount(living);
     setEntertainmentAmount(entertainment);
   }
-
   
 
   return (
     <SafeAreaView style={{marginTop: 5}}>
 
-      <Text style={styles.SubHeadingStyle}>Budget Amount</Text>
-      <FakeCurrencyInput
-        onFocus={handleFocusBudget}
-        onBlur={handleBlurBudget}
-        style={[styles.InputStyle, {borderColor: isFocused ? '#a800a0' : '#807f7d'}]}
-        prefix="$ "
-        delimiter=","
-        separator="."
-        precision={2}
-        minValue={0}
-        onChangeValue={setBudget}
-        onChange={(e) => setBudget(e)}
-        value={budget}
-      />
         <CenterElements>
           <RoundedBorder>
             <Text style={{fontSize: 17, fontWeight: 'bold'}}>{currentDate}'s Budget</Text>
@@ -130,45 +106,59 @@ export const MonthlySummary = ({route, navigation}) => {
                 <Text style={styles.ExpenseSummaryEntertainment}>{formatNumber(entertainmentAmount, {delimiter: ",", prefix: "$"})}</Text>
               </View>
             </View>
+            
+            <View style={{ margin: 15, alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableHighlight
+                style={styles.ButtonStyle}
+                underlayColor= '#94ABDB'
+                onPress={()=> {
+                navigation.navigate('AddExpenses', {
+                    subscribe: subsAmount,
+                    creditCards: cardAmount,
+                    autos: autoAmount,
+                    groceries: groceryAmount,
+                    livings: livingAmount,
+                    entertainments: entertainmentAmount,
+                    })
+                }}
+                >
+                <Text style={styles.TextStyle}>Add Expenses</Text>
+            </TouchableHighlight>
+            </View>
+            
           </RoundedBorderSummary>
         </CenterElements>
-      <View style={{margin: 10}}>
 
-        
+    <CenterElements>
+        <RoundedBorder>
+            <VictoryChart width={350} theme={VictoryTheme.material}>
+                <VictoryBar 
+                    categories={{
+                      x: ["Auto", "Living", "Groceries", "Credit Cards", "Subscriptions", "Entertainment"]
+                    }}
+                    data={[
+                      {x: "Auto", y: autoAmount},
+                      {x: "Living", y: livingAmount},
+                      {x: "Groceries", y: groceryAmount},
+                      {x: "Credit Cards", y: cardAmount},
+                      {x: "Subscriptions", y: subsAmount},
+                      {x: "Entertainment", y: entertainmentAmount}
+                    ]}
+                />
 
-        <Button
-        title="Add Expenses"
-        color='#261FE6'
-        onPress={()=> {
-          navigation.navigate('AddExpenses', {
-            subscribe: subsAmount,
-            creditCards: cardAmount,
-            autos: autoAmount,
-            groceries: groceryAmount,
-            livings: livingAmount,
-            entertainments: entertainmentAmount,
-          })
-        }}
-      />
-
-      <Button 
-        title="Storage Page"
-        onPress={() => {navigation.navigate('AsyncStoragePage')}}
-      />
-
-  <Button
-    title="Result"
-    color='#261FE6'
-    
-      />
-  <Button
-    title="Add Budget Amount"
-    color='#261FE6'
-    onPress={add}
-      />
-
-      
-      </View>
+                
+            </VictoryChart>
+            <View style={{ margin: 15, alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableHighlight
+                    style={styles.ButtonStyle}
+                    underlayColor= '#94ABDB'
+                    onPress={add}
+                    >
+                    <Text style={styles.TextStyle}>Update Report</Text>
+                </TouchableHighlight>
+            </View>
+        </RoundedBorder>
+    </CenterElements>
     </SafeAreaView>
     
   );
@@ -218,5 +208,19 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#0C6705'
     },
+
+    ButtonStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 310,
+        height: 40,
+        borderRadius: 5,
+        backgroundColor: '#185FEE'
+    },
+
+    TextStyle: {
+        color: '#FFFFFF',
+        fontSize: 17,
+    }
 
 });

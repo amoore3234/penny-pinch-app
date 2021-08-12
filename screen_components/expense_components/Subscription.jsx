@@ -29,6 +29,7 @@ export const Subscription = ({ navigation }) => {
 
     useEffect(() => {
     retrieveData();
+    
     },[])
 
     const handleButton = async () => {
@@ -56,13 +57,15 @@ export const Subscription = ({ navigation }) => {
     calculateSum();
     };
 
-    const calculateSum = () => {
+    const calculateSum = async () => {
     
     const getSum = items.reduce((total, item) => {
         return total + item.subCost
     }, addSubCost);
 
-    setGetSum(getSum);
+            setGetSum(getSum);
+    
+
     setAddSubCost(0);
     };
 
@@ -76,6 +79,18 @@ export const Subscription = ({ navigation }) => {
     } catch (err) {
         console.log(err);
     } 
+    }
+
+    const retrieveSum = async () => {
+        try {
+            const sub = await AsyncStorage.getItem('subsSum');
+            const subSum = await JSON.parse(sub);
+            if (subSum !== null) {
+            setGetSum(subSum);
+            }
+        } catch (err) {
+            console.log(err);
+        } 
     }
 
     const deleteItem = async (id) => {
