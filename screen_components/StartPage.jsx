@@ -1,8 +1,10 @@
 import React from "react";
 import { FakeCurrencyInput } from "react-native-currency-input";
 import { useState } from 'react';
-import { Button, Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
+import { Dimensions } from 'react-native';
 import { Center } from '../styles_component/Center';
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 export const StartPage = ({navigation}) => {
     const[budget, setBudget] = useState(0);
@@ -20,64 +22,75 @@ export const StartPage = ({navigation}) => {
   
     return (
     <Center>
-      <Text style={styles.HeadingStyle}>Welcome to Penny Pinch</Text>
-      <Text style={{fontSize: 17}}>Please enter the desired budget amount to{"\n\t"}start tracking and saving your expenses.{'\n'}</Text>
       
+      <Text style={styles.HeadingStyle}>Welcome to Penny Pinch{"\n"}</Text>
+      <Text style={{fontSize: 19, paddingBottom: 20}}>Please enter the desired budget amount {"\n"}and savings goal amount to start saving!{'\n'}</Text>
+      
+      <View>
         <Text style={styles.SubHeadingStyle}>Budget Amount</Text>
         <FakeCurrencyInput
           onFocus={handleFocusBudget}
           onBlur={handleBlurBudget}
-          style={[styles.InputStyle, {borderColor: isFocused ? '#a800a0' : '#807f7d'}]}
+          style={[styles.InputStyle, {borderColor: isFocused ? '#05CFD6' : '#807f7d'}]}
           prefix="$ "
           delimiter=","
           separator="."
           precision={2}
           minValue={0}
+          maxValue={999999}
           onChangeValue={setBudget}
           value={budget}
         />
-        <View style={{padding: 10}}>
+        </View>
+
+        <View style={{paddingTop: 25}}>
         <Text style={styles.SubHeadingStyle}>Savings Goal</Text>
         <FakeCurrencyInput
           onFocus={handleFocusSavings}
           onBlur={handleBlurSavings}
-          style={[styles.InputStyle, {borderColor: isFocusedSavings ? '#a800a0' : '#807f7d'}]}
+          style={[styles.InputStyle, {borderColor: isFocusedSavings ? '#05CFD6' : '#807f7d'}]}
           prefix="$ "
           delimiter=","
           separator="."
           precision={2}
           minValue={0}
+          maxValue={999999}
           onChangeValue={setGoal}
           value={goal}
         />
         </View>
-        <View style={{paddingTop: 100, width: 300}}>
-        <Button
-          title="Next"
-          color='#261FE6'
-          onPress={()=> {
-            navigation.navigate('MonthlyReport', {
-              monthlyBudget: budget,
-              savings: goal,
-            })
-          }}
-        />
-        </View>
+
+        <View style={{position: 'absolute', bottom: 20}}>
+    <TouchableHighlight
+        style={styles.UpdateButtonStyle}
+        underlayColor= '#94ABDB'
+        disabled={budget === 0 ? true : false}
+        onPress={()=> {
+          navigation.navigate('MonthlyReport', {
+            monthlyBudget: budget,
+            savings: goal,
+          })
+        }}
+    >
+        <Text style={styles.TextStyle}>Next</Text>
+    </TouchableHighlight>
+    </View>
       </Center>
   
     );
     
   };
 
+  const { width } = Dimensions.get("window");
   const styles = StyleSheet.create({
 
     HeadingStyle: {
       fontWeight: 'bold',
-      fontSize: 20,
+      fontSize: 22,
     },
     
     SubHeadingStyle: {
-      textAlign: 'center', 
+      paddingLeft: 5,
       paddingBottom: 5, 
       fontWeight: 'bold', 
       fontSize: 17
@@ -86,9 +99,23 @@ export const StartPage = ({navigation}) => {
     InputStyle: {
       borderWidth: 3,
       borderRadius: 10,
-      paddingLeft: 10,
-      height: 40,
-      width: 180,
-      fontSize: 17,
+      paddingLeft: 5,
+      height: 45,
+      width: width - 100,
+      fontSize: 20,
     },
+
+    UpdateButtonStyle: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: width - 50,
+      height: 40,
+      borderRadius: 5,
+      backgroundColor: '#261FE6'
+  },
+
+  TextStyle: {
+    color: '#FFFFFF',
+    fontSize: 19,
+}
 });

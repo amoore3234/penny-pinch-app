@@ -2,7 +2,7 @@ import React from "react";
 import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import { useState, useEffect} from 'react';
 import { FakeCurrencyInput, formatNumber } from "react-native-currency-input";
-import { StyleSheet, Text, View, SafeAreaView, TextInput, FlatList, Dimensions, BackHandler, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, FlatList, Dimensions, BackHandler } from 'react-native';
 import { CenterElements } from '../../styles_component/CenterElements';
 import { RoundedBorderExp } from '../../styles_component/RoundedBorderExp';
 import { TouchableHighlight } from "react-native-gesture-handler";

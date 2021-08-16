@@ -229,7 +229,7 @@ export const MonthlySummary = ({route, navigation}) => {
     <CenterElements>
         <RoundedBorderChart>
         <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>Total Expense Chart</Text>
-            <View style={{paddingLeft: 20, position: 'relative', bottom: 17}}>
+            <View style={{paddingLeft: 25, position: 'relative', bottom: 17}}>
             <VictoryChart height={270} width={412} domainPadding={18} theme={VictoryTheme.material}>
             <VictoryAxis 
                 tickValues={[1, 2, 3, 4, 5, 6]} 
