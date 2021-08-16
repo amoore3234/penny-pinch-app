@@ -2,9 +2,10 @@ import React from "react";
 import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import { useState, useEffect} from 'react';
 import { FakeCurrencyInput, formatNumber } from "react-native-currency-input";
-import { Button, StyleSheet, Text, View, SafeAreaView, TextInput, FlatList } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, FlatList, Dimensions, BackHandler, Keyboard } from 'react-native';
 import { CenterElements } from '../../styles_component/CenterElements';
 import { RoundedBorderExp } from '../../styles_component/RoundedBorderExp';
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 export const Subscription = ({ navigation }) => {
 
@@ -29,13 +30,16 @@ export const Subscription = ({ navigation }) => {
 
     useEffect(() => {
     retrieveData();
-    
+    BackHandler.addEventListener('hardwareBackPress', function () {
+          return true;
+    });
+    return () => {}
     },[])
 
     const handleButton = async () => {
     
-    const newItem = {
-        id: items.length,
+     const newItem = {
+        id: Math.random(),
         subName: addSubName,
         subCost: addSubCost
     };
@@ -53,8 +57,8 @@ export const Subscription = ({ navigation }) => {
 
     setAddSubName('');
     setAddSubCost(0);
-    
     calculateSum();
+    Keyboard.dismiss();
     };
 
     const calculateSum = async () => {
@@ -81,17 +85,6 @@ export const Subscription = ({ navigation }) => {
     } 
     }
 
-    const retrieveSum = async () => {
-        try {
-            const sub = await AsyncStorage.getItem('subsSum');
-            const subSum = await JSON.parse(sub);
-            if (subSum !== null) {
-            setGetSum(subSum);
-            }
-        } catch (err) {
-            console.log(err);
-        } 
-    }
 
     const deleteItem = async (id) => {
     try{
@@ -111,12 +104,14 @@ export const Subscription = ({ navigation }) => {
     }
 
     return(
-    <SafeAreaView>
-    <View style={{flexDirection: 'row', justifyContent: 'space-between', margin: 10}}>
+    <SafeAreaView style={{}}>
+    <View style={styles.SubscriptionBorder}>
+    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+    
     <TextInput
         onFocus={handleFocusName}
         onBlur={handleBlurName}
-        style={[styles.InputStyle, {borderColor: isFocusedName ? '#a800a0' : '#807f7d'}]}
+        style={[styles.InputStyle, {borderColor: isFocusedName ? '#E20D31' : '#807f7d'}]}
         placeholder='Subscription Name'
         value={addSubName}
         onChangeText={val => setAddSubName(val)}
@@ -125,7 +120,7 @@ export const Subscription = ({ navigation }) => {
     <FakeCurrencyInput
         onFocus={handleFocusCost}
         onBlur={handleBlurCost}
-        style={[styles.InputStyle, {borderColor: isFocused ? '#a800a0' : '#807f7d'}]}
+        style={[styles.InputStyle, {borderColor: isFocused ? '#E20D31' : '#807f7d'}]}
         prefix="$ "
         delimiter=","
         separator="."
@@ -136,39 +131,40 @@ export const Subscription = ({ navigation }) => {
         />
     </View>
     </View>
+    <View style={{flexDirection: 'row', justifyContent:'space-around', paddingTop: 15}}>
+    <TouchableHighlight
+        style={styles.ButtonStyle}
+        underlayColor= '#94ABDB'
+        disabled={addSubName === "" ? true : false}
+        onPress={handleButton}
+    >
+        <Text style={styles.TextStyle}>Add To List</Text>
+    </TouchableHighlight>
 
-    <Button 
-    title="Add"
-    color='#261FE6'
-    onPress={handleButton}
-    />
+    <TouchableHighlight
+        style={styles.ButtonStyle}
+        underlayColor= '#94ABDB'
+        onPress={()=> {
+            navigation.navigate('AddExpenses', {
+            subscribe: getSum,
+            })
+        }}
+    >
+        <Text style={styles.TextStyle}>Add More Expenses</Text>
+    </TouchableHighlight>
+    </View>
+    <View style={{alignItems: 'center', paddingTop:15}}>
+    <TouchableHighlight
+        style={styles.UpdateButtonStyle}
+        underlayColor= '#F693A4'
+        onPress={update}
+    >
+        <Text style={styles.TextStyle}>{getSum ? "Update Completed": "Please Update"}</Text>
+    </TouchableHighlight>
+    </View>
 
-    <Button 
-    title={getSum ? "Updated Completed": "Update"}
-    color='#261FE6'
-    onPress={update}
-    />
+    </View>
 
-    <Button
-    title="Add Expenses"
-    color='#261FE6'
-    onPress={()=> {
-    navigation.navigate('AddExpenses', {
-    subscribe: getSum,
-    })
-    }}
-    />
-
-    <Button
-    title="Home"
-    color='#261FE6'
-    onPress={()=> {
-    navigation.navigate('MonthlyReport', {
-    
-    subs: getSum
-    })
-    }}
-    />
 
     <FlatList 
         keyExtractor={(item) => item.id.toString()}
@@ -184,22 +180,17 @@ export const Subscription = ({ navigation }) => {
             <Text onPress={()=> deleteItem(item.id)} style={{fontSize: 17, color: '#1281CB'}}>Delete</Text> 
             </View>
             
-            
         </RoundedBorderExp>
         </CenterElements>
         )}
         
-        />
-
-
-    
-    <View><Text></Text></View>
+    />
 
     </SafeAreaView>
 
     );
 };
-
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
 
     InputStyle: {
@@ -210,4 +201,43 @@ const styles = StyleSheet.create({
         width: 180,
         fontSize: 17,
     },
+
+    SubscriptionBorder: {
+        margin: 10,
+        backgroundColor: 'white',
+        width: width - 15,
+        borderRadius: 10,
+        shadowColor: "#000",
+        borderStyle: 'solid',
+        borderColor: 'white',
+        borderWidth: 1,
+        paddingTop: 10,
+        height: 180,
+        elevation: 5
+    },
+
+    ButtonStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 170,
+        height: 40,
+        borderRadius: 5,
+        backgroundColor: '#185FEE'
+    },
+
+    UpdateButtonStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 310,
+        height: 40,
+        borderRadius: 5,
+        backgroundColor: '#E20D31'
+    },
+
+    
+
+    TextStyle: {
+        color: '#FFFFFF',
+        fontSize: 17,
+    }
 });

@@ -1,23 +1,27 @@
 import React from "react";
-import { Surface } from 'react-native-paper';
-import { Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 
 export const SquareRoundedBorder = ({children}) => {
-    const { width, height } = Dimensions.get("window");
+    const { width } = Dimensions.get("window");
     return (
-    <Surface
+    <View
         style={{
+            backgroundColor: 'white',
+            justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 10,
-            paddingTop: 10,
+            shadowColor: "#000",
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 1,
             margin: 7,
             width: width/2 - 20,
             height: 160,
-            elevation: 5
+            elevation: 5,
             
         }}>
         {children}
-    </Surface>
+    </View>
     );
     
 }

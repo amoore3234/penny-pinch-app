@@ -2,9 +2,10 @@ import React from "react";
 import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import { useState, useEffect} from 'react';
 import { FakeCurrencyInput, formatNumber } from "react-native-currency-input";
-import { Button, Text, StyleSheet, View, SafeAreaView, TextInput, FlatList } from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, TextInput, FlatList, Dimensions, BackHandler } from 'react-native';
 import { CenterElements } from '../../styles_component/CenterElements';
 import { RoundedBorderExp } from '../../styles_component/RoundedBorderExp';
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 export const Entertainment= ({ navigation }) => {
 
@@ -29,12 +30,16 @@ export const Entertainment= ({ navigation }) => {
 
     useEffect(() => {
     retrieveData();
+    BackHandler.addEventListener('hardwareBackPress', function () {
+        return true;
+    });
+    return () => {}
     },[])
 
     const handleButton = async () => {
     
     const newItem = {
-        id: items.length,
+        id: Math.random(),
         entertainName: addEntertainName,
         entertainCost: addEntertainCost
     };
@@ -97,11 +102,12 @@ export const Entertainment= ({ navigation }) => {
 
     return(
     <SafeAreaView>
-    <View style={{flexDirection: 'row', justifyContent: 'space-between', margin: 10}}>
+    <View style={styles.EntertainmentBorder}>
+    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
     <TextInput
         onFocus={handleFocusName}
         onBlur={handleBlurName}
-        style={[styles.InputStyle, {borderColor: isFocusedName ? '#a800a0' : '#807f7d'}]}
+        style={[styles.InputStyle, {borderColor: isFocusedName ? '#0C6705' : '#807f7d'}]}
         placeholder='Attraction Name'
         value={addEntertainName}
         onChangeText={val => setAddEntertainName(val)}
@@ -110,7 +116,7 @@ export const Entertainment= ({ navigation }) => {
     <FakeCurrencyInput
         onFocus={handleFocusCost}
         onBlur={handleBlurCost}
-        style={[styles.InputStyle, {borderColor: isFocused ? '#a800a0' : '#807f7d'}]}
+        style={[styles.InputStyle, {borderColor: isFocused ? '#0C6705' : '#807f7d'}]}
         prefix="$ "
         delimiter=","
         separator="."
@@ -119,41 +125,43 @@ export const Entertainment= ({ navigation }) => {
         onChangeValue={setAddEntertainCost}
         value={addEntertainCost}
         />
+        </View>
+        </View>
+
+    <View style={{flexDirection: 'row', justifyContent:'space-around', paddingTop: 15}}>
+    <TouchableHighlight
+        style={styles.ButtonStyle}
+        underlayColor= '#94ABDB'
+        disabled={addEntertainName === "" ? true : false}
+        onPress={handleButton}
+    >
+        <Text style={styles.TextStyle}>Add To List</Text>
+    </TouchableHighlight>
+
+    <TouchableHighlight
+        style={styles.ButtonStyle}
+        underlayColor= '#94ABDB'
+        onPress={()=> {
+            navigation.navigate('AddExpenses', {
+            entertainments: getSum,
+            })
+        }}
+    >
+        <Text style={styles.TextStyle}>Add More Expenses</Text>
+    </TouchableHighlight>
     </View>
+    <View style={{alignItems: 'center', paddingTop:15}}>
+    <TouchableHighlight
+        style={styles.UpdateButtonStyle}
+        underlayColor= '#65B45F'
+        onPress={update}
+    >
+        <Text style={styles.TextStyle}>{getSum ? "Update Completed": "Please Update"}</Text>
+    </TouchableHighlight>
     </View>
 
-    <Button 
-    title="Add"
-    color='#261FE6'
-    onPress={handleButton}
-    />
+    </View>
 
-    <Button 
-    title={getSum ? "Updated Completed": "Update"}
-    color='#261FE6'
-    onPress={update}
-    />
-
-    <Button
-    title="Add Expenses"
-    color='#261FE6'
-    onPress={()=> {
-    navigation.navigate('AddExpenses', {
-    entertainments: getSum,
-    })
-    }}
-    />
-
-    <Button
-    title="Home"
-    color='#261FE6'
-    onPress={()=> {
-    navigation.navigate('MonthlyReport', {
-    
-    entertainment: getSum
-    })
-    }}
-    />
 
     <FlatList 
         keyExtractor={(item) => item.id.toString()}
@@ -181,6 +189,7 @@ export const Entertainment= ({ navigation }) => {
     );
 };
 
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
 
     InputStyle: {
@@ -191,4 +200,41 @@ const styles = StyleSheet.create({
         width: 180,
         fontSize: 17,
     },
+
+    EntertainmentBorder: {
+        margin: 10,
+        backgroundColor: 'white',
+        width: width - 15,
+        borderRadius: 10,
+        shadowColor: "#000",
+        borderStyle: 'solid',
+        borderColor: 'white',
+        borderWidth: 1,
+        paddingTop: 10,
+        height: 180,
+        elevation: 5
+    },
+
+    ButtonStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 170,
+        height: 40,
+        borderRadius: 5,
+        backgroundColor: '#185FEE'
+    },
+
+    UpdateButtonStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 310,
+        height: 40,
+        borderRadius: 5,
+        backgroundColor: '#0C6705'
+    },
+
+    TextStyle: {
+        color: '#FFFFFF',
+        fontSize: 17,
+    }
 });

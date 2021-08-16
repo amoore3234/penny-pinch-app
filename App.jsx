@@ -12,8 +12,7 @@ import {
   AutoExpense,
   GroceryExpense,
   LivingExpense,
-  EntertainmentExpense,
-  AsyncStoragePage 
+  EntertainmentExpense, 
   } from './Screens';
 
 const Stack = createStackNavigator();
@@ -138,7 +137,7 @@ export default () => {
         name="EntertainmentExpense" 
         component={EntertainmentExpense} 
         options={{
-          title: 'Entertainment / Misc',
+          title: 'Attraction / Misc',
           headerLeft: null,
           headerTitleAlign: 'center',
           headerStyle: {
@@ -147,7 +146,6 @@ export default () => {
           headerTintColor: '#FFFFFF'
         }}
         />
-      <Stack.Screen name="AsyncStoragePage" component={AsyncStoragePage} />
     </Stack.Navigator>
   </NavigationContainer>
   );

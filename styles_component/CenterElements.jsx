@@ -4,7 +4,7 @@ import { View } from 'react-native';
 export const CenterElements = ({children}) => {
     return(
     <View style={{
-        margin: 5,
+        margin: 7,
         alignItems: 'center',
         justifyContent: 'center'
         }}>
