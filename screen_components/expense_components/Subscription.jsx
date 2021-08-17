@@ -58,7 +58,6 @@ export const Subscription = ({ navigation }) => {
     setAddSubName('');
     setAddSubCost(0);
     calculateSum();
-    Keyboard.dismiss();
     };
 
     const calculateSum = async () => {

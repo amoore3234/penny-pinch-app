@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions, View } from 'react-native';
 
 export const RoundedBorderChart = ({children}) => {
-    const { width } = Dimensions.get("window");
+    const { width, height } = Dimensions.get("window");
 
     return (
     <View
@@ -16,7 +16,7 @@ export const RoundedBorderChart = ({children}) => {
             borderColor: 'white',
             borderWidth: 1,
             paddingTop: 10,
-            height: 340,
+            height: height - 470,
             elevation: 5
             
         }}>

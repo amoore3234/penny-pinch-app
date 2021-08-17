@@ -5,7 +5,7 @@ export const Center = ({children}) => {
   return (
     <View
     style={{
-      marginTop: 80,
+      marginTop: 60,
       marginLeft: 10,
       marginRight: 10,
       flex: 1,

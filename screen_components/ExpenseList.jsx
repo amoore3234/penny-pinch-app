@@ -127,7 +127,7 @@ export const ExpenseList = ({ route, navigation}) => {
         underlayColor= '#94ABDB'
         onPress={getTotals}
     >
-        <Text style={styles.TextStyle}>Get Totals</Text>
+        <Text style={styles.TextStyle}>Update Totals</Text>
       </TouchableHighlight>
     </View>
     </View>

@@ -15,7 +15,7 @@ export const RoundedBorderSummary = ({children}) => {
             borderColor: 'white',
             borderWidth: 1,
             paddingTop: 10,
-            height: 210,
+            height: 205,
             elevation: 5
             
         }}>

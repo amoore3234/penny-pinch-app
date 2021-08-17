@@ -108,7 +108,7 @@ export const Grocery = ({ navigation }) => {
         onFocus={handleFocusName}
         onBlur={handleBlurName}
         style={[styles.InputStyle, {borderColor: isFocusedName ? '#BF5D11' : '#807f7d'}]}
-        placeholder='Grocery Name'
+        placeholder='Item Name'
         value={addGroceryName}
         onChangeText={val => setAddGroceryName(val)}
     />

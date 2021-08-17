@@ -2,13 +2,14 @@ import React from "react";
 import moment from "moment";
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from "victory-native";
 import { formatNumber, FakeCurrencyInput} from "react-native-currency-input";
-import { useState, useEffect, useRef} from 'react';
-import { Text, StyleSheet, View, SafeAreaView, Image, BackHandler, Button} from 'react-native';
+import { useState, useEffect } from 'react';
+import { Text, StyleSheet, View, SafeAreaView, Image, BackHandler, Dimensions} from 'react-native';
 import { SquareRoundedBorderSummary } from '../styles_component/SquareRoundedBorderSummary';
 import { CenterElements } from '../styles_component/CenterElements';
 import { RoundedBorderSummary } from '../styles_component/RoundedBorderSummary';
 import { RoundedBorderChart } from '../styles_component/RoundedBorderChart';
 import { TouchableHighlight } from "react-native-gesture-handler";
+const { height } = Dimensions.get("window");
 
 
 
@@ -103,7 +104,7 @@ export const MonthlySummary = ({route, navigation}) => {
   
 
   return (
-    <SafeAreaView style={{marginTop: 0}}>
+    <SafeAreaView style={{flex: 1, marginBottom: 10}}>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <CenterElements>
           <SquareRoundedBorderSummary>
@@ -114,18 +115,19 @@ export const MonthlySummary = ({route, navigation}) => {
               <FakeCurrencyInput
               onFocus={handleFocusBudget}
               onBlur={handleBlurBudget}
-              style={[styles.InputStyle, {borderColor: isFocused ? '#a800a0' : '#807f7d'}]}
+              style={[styles.InputStyle, {borderColor: isFocused ? '#05CFD6' : '#807f7d'}]}
               prefix="$ "
               delimiter=","
               separator="."
               precision={2}
               minValue={0}
+              maxValue={999999}
               onChangeValue={setUpdateBudget}
               value={updateBudget}
             />
             <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10}}>
             <TouchableHighlight style={styles.ConfirmButton} underlayColor={'#3FB252'} onPress={updateEdit}><Image style={{height: 20, width: 19}} source={require('../assets/images/check.png')} /></TouchableHighlight>
-            <TouchableHighlight style={styles.DefaultButton} underlayColor={'#F693A4'} onPress={defaultEdit} ><Text style={{fontSize: 18, color: 'white'}}>X</Text></TouchableHighlight>
+            <TouchableHighlight style={styles.DefaultButton} underlayColor={'#F693A4'} onPress={defaultEdit} ><Text style={{fontSize: 22, color: 'white'}}>X</Text></TouchableHighlight>
             </View>
             </View>
             
@@ -143,18 +145,19 @@ export const MonthlySummary = ({route, navigation}) => {
               <FakeCurrencyInput
               onFocus={handleFocusSavings}
               onBlur={handleBlurSavings}
-              style={[styles.InputStyle, {borderColor: isFocusedSavings ? '#a800a0' : '#807f7d'}]}
+              style={[styles.InputStyle, {borderColor: isFocusedSavings ? '#05CFD6' : '#807f7d'}]}
               prefix="$ "
               delimiter=","
               separator="."
               precision={2}
               minValue={0}
+              maxValue={999999}
               onChangeValue={setUpdateSavings}
               value={updateSavings}
             />
             <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 10}}>
             <TouchableHighlight onPress={updateSavingsEdit} underlayColor={'#3FB252'} style={styles.ConfirmButton}><Image style={{height: 20, width: 19}} source={require('../assets/images/check.png')} /></TouchableHighlight>
-            <TouchableHighlight style={styles.DefaultButton} underlayColor={'#F693A4'} onPress={defaultSavingsEdit}><Text style={{fontSize: 18, color: 'white'}}>X</Text></TouchableHighlight>
+            <TouchableHighlight style={styles.DefaultButton} underlayColor={'#F693A4'} onPress={defaultSavingsEdit}><Text style={{fontSize: 22, color: 'white'}}>X</Text></TouchableHighlight>
             </View>
             </View>
 
@@ -229,8 +232,8 @@ export const MonthlySummary = ({route, navigation}) => {
     <CenterElements>
         <RoundedBorderChart>
         <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>Total Expense Chart</Text>
-            <View style={{paddingLeft: 25, position: 'relative', bottom: 17}}>
-            <VictoryChart height={270} width={412} domainPadding={18} theme={VictoryTheme.material}>
+            <View style={{paddingLeft: 25, position: 'relative', bottom: 40}}>
+            <VictoryChart height={height - 500} width={412} domainPadding={18} theme={VictoryTheme.material}>
             <VictoryAxis 
                 tickValues={[1, 2, 3, 4, 5, 6]} 
                 tickFormat={["Auto", "Cards", "Living", "Food", "Subs", "Misc"]} 
@@ -258,7 +261,7 @@ export const MonthlySummary = ({route, navigation}) => {
                 />  
             </VictoryChart>
             </View>
-            <View style={{ position:'relative', bottom: 15}}>
+            <View style={{ position:'absolute', bottom: 7}}>
                 <TouchableHighlight
                     style={styles.ButtonStyle}
                     underlayColor= '#94ABDB'
@@ -288,7 +291,7 @@ const styles = StyleSheet.create({
       paddingLeft: 10,
       height: 40,
       width: 140,
-      fontSize: 21,
+      fontSize: 19,
     },
 
     ExpenseSummarySub: {
@@ -331,7 +334,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: 310,
-        height: 40,
+        height: 35,
         borderRadius: 5,
         backgroundColor: '#185FEE'
     },
