@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @react-native@^0.63.1
+  C:\Program Files\nodejs\node.exe C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-community/masked-view@^0.2.4
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Python39\Scripts\;C:\Python39\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\MongoDB\Server\5.0\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Users\moore\AppData\Local\Microsoft\WindowsApps;C:\Users\moore\AppData\Roaming\npm;C:\Users\moore\AppData\Local\Android\Sdk\platform-tools;C:\Users\moore\AppData\Local\Android\Sdk\tools;C:\Users\moore\AppData\Local\Programs\Microsoft VS Code\bin
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@react-native: Request "https://registry.yarnpkg.com/@react-native" returned a 405
+  Error: https://registry.yarnpkg.com/react-native-community%2fmasked-view: Request "https://registry.yarnpkg.com/react-native-community%2fmasked-view" returned a 405
       at Request.params.callback [as _callback] (C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:67001:18)
       at Request.self.callback (C:\Users\moore\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140763:22)
       at Request.emit (events.js:400:28)
@@ -51,7 +51,7 @@ npm manifest:
       "react-currency-format": "^1.0.0",
       "react-dom": "16.13.1",
       "react-edit-button": "^1.0.2",
-      "react-native": "0.63.1",
+      "react-native": "^0.63.1",
       "react-native-async-storage": "^0.0.1",
       "react-native-currency-input": "^1.0.1",
       "react-native-gesture-handler": "~1.10.2",
@@ -1936,7 +1936,7 @@ Lockfile:
       hermes-profile-transformer "^0.0.6"
       ip "^1.1.5"
   
-  "@react-native-community/cli-platform-android@^4.13.0", "@react-native-community/cli-platform-android@^4.7.0":
+  "@react-native-community/cli-platform-android@^4.10.0", "@react-native-community/cli-platform-android@^4.13.0":
     version "4.13.0"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-android/-/cli-platform-android-4.13.0.tgz#922681ec82ee1aadd993598b814df1152118be02"
     integrity sha512-3i8sX8GklEytUZwPnojuoFbCjIRzMugCdzDIdZ9UNmi/OhD4/8mLGO0dgXfT4sMWjZwu3qjy45sFfk2zOAgHbA==
@@ -1952,7 +1952,7 @@ Lockfile:
       slash "^3.0.0"
       xmldoc "^1.1.2"
   
-  "@react-native-community/cli-platform-ios@^4.7.0":
+  "@react-native-community/cli-platform-ios@^4.10.0":
     version "4.13.0"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-ios/-/cli-platform-ios-4.13.0.tgz#a738915c68cac86df54e578b59a1311ea62b1aef"
     integrity sha512-6THlTu8zp62efkzimfGr3VIuQJ2514o+vScZERJCV1xgEi8XtV7mb/ZKt9o6Y9WGxKKkc0E0b/aVAtgy+L27CA==
@@ -1997,7 +1997,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-types/-/cli-types-4.10.1.tgz#d68a2dcd1649d3b3774823c64e5e9ce55bfbe1c9"
     integrity sha512-ael2f1onoPF3vF7YqHGWy7NnafzGu+yp88BbFbP0ydoCP2xGSUzmZVw0zakPTC040Id+JQ9WeFczujMkDy6jYQ==
   
-  "@react-native-community/cli@^4.7.0":
+  "@react-native-community/cli@^4.10.0":
     version "4.14.0"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli/-/cli-4.14.0.tgz#bb106a98341bfa2db36060091ff90bfe82ea4f55"
     integrity sha512-EYJKBuxFxAu/iwNUfwDq41FjORpvSh1wvQ3qsHjzcR5uaGlWEOJrd3uNJDuKBAS0TVvbEesLF9NEXipjyRVr4Q==
@@ -5772,15 +5772,15 @@ Lockfile:
       prop-types "^15.6.0"
       react-timer-mixin "^0.13.4"
   
-  react-native@0.63.1:
-    version "0.63.1"
-    resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.1.tgz#af814c47fc6b9e938b1c3b11e9d1555b7e8c669b"
-    integrity sha512-7SYBgLSu9p6uKPZIUEcAPGUe8a07UGi/2TdCWqkIazH6/2B93yuvDULAzyDT2hhSJPxUAvb6tGowoWVnZQQVtw==
+  react-native@^0.63.1:
+    version "0.63.4"
+    resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.4.tgz#2210fdd404c94a5fa6b423c6de86f8e48810ec36"
+    integrity sha512-I4kM8kYO2mWEYUFITMcpRulcy4/jd+j9T6PbIzR0FuMcz/xwd+JwHoLPa1HmCesvR1RDOw9o4D+OFLwuXXfmGw==
     dependencies:
       "@babel/runtime" "^7.0.0"
-      "@react-native-community/cli" "^4.7.0"
-      "@react-native-community/cli-platform-android" "^4.7.0"
-      "@react-native-community/cli-platform-ios" "^4.7.0"
+      "@react-native-community/cli" "^4.10.0"
+      "@react-native-community/cli-platform-android" "^4.10.0"
+      "@react-native-community/cli-platform-ios" "^4.10.0"
       abort-controller "^3.0.0"
       anser "^1.4.9"
       base64-js "^1.1.2"

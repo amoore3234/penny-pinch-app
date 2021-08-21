@@ -47,7 +47,7 @@ export const MonthlySummary = ({route, navigation}) => {
   useEffect(() => {
     let month = moment();
     setCurrentDate(month.format('MMMM'));
-    add();
+    expenseTotal();
     BackHandler.addEventListener('hardwareBackPress', function () {
       return true;
   });

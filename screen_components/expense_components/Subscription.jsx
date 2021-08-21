@@ -10,186 +10,174 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 export const Subscription = ({ navigation }) => {
 
     const[items, setItems] = useState([]);
-    
-
     const[addSubName, setAddSubName] = useState('');
     const[addSubCost, setAddSubCost] = useState(0);
-
     const[getSum, setGetSum] = useState(0);
 
     const[isFocused, setIsFocused] = useState(false);
     const[isFocusedName, setIsFocusedName] = useState(false);
 
     const handleFocusCost = () => setIsFocused(true);
-
     const handleBlurCost = () => setIsFocused(false);
-
     const handleFocusName = () => setIsFocusedName(true);
-
     const handleBlurName = () => setIsFocusedName(false);
 
     useEffect(() => {
-    retrieveData();
-    BackHandler.addEventListener('hardwareBackPress', function () {
-          return true;
-    });
-    return () => {}
+        retrieveData();
+            BackHandler.addEventListener('hardwareBackPress', function () {
+                return true;
+            });
+        return () => {}
     },[])
 
+
     const handleButton = async () => {
-    
-     const newItem = {
-        id: Math.random(),
-        subName: addSubName,
-        subCost: addSubCost
+        const newItem = {
+            id: Math.random(),
+            subName: addSubName,
+            subCost: addSubCost
+        };
+
+        const newItems = [...items, newItem];
+
+        try {
+            await AsyncStorage.setItem('subsList', JSON.stringify(newItems));
+                if(newItems !== null) {
+                    setItems(newItems);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+
+        setAddSubName('');
+        setAddSubCost(0);
+        calculateSum();
     };
 
-    const newItems = [...items, newItem];
-
-    try {
-    await AsyncStorage.setItem('subsList', JSON.stringify(newItems));
-    if(newItems !== null) {
-        setItems(newItems);
-    }
-    } catch (err) {
-        console.log(err);
-    }
-
-    setAddSubName('');
-    setAddSubCost(0);
-    calculateSum();
-    };
 
     const calculateSum = async () => {
-    
-    const getSum = items.reduce((total, item) => {
-        return total + item.subCost
-    }, addSubCost);
+        const getSum = items.reduce((total, item) => {
+            return total + item.subCost
+        }, addSubCost);
 
-            setGetSum(getSum);
-    
-
-    setAddSubCost(0);
+        setGetSum(getSum);
+        setAddSubCost(0);
     };
 
+
     const retrieveData = async () => {
-    try {
-        const list = await AsyncStorage.getItem('subsList');
-        const listOfExpenses = await JSON.parse(list);
-        if (listOfExpenses !== null) {
-        setItems(listOfExpenses);
-        }
-    } catch (err) {
-        console.log(err);
-    } 
-    }
+        try {
+            const list = await AsyncStorage.getItem('subsList');
+            const listOfExpenses = await JSON.parse(list);
+                if (listOfExpenses !== null) {
+                setItems(listOfExpenses);
+                }
+            } catch (err) {
+                console.log(err);
+            }    
+    };
 
 
     const deleteItem = async (id) => {
-    try{
-    
-    const newList = items.filter(n => n.id !== id);
-    await AsyncStorage.setItem('subsList', JSON.stringify(newList));
-    if (newList !== null) {
-    setItems(newList);
-    }
-    } catch (err) {
-    console.log(err);
-    }
-    }
+        try{
+            const newList = items.filter(n => n.id !== id);
+                await AsyncStorage.setItem('subsList', JSON.stringify(newList));
+                    if (newList !== null) {
+                    setItems(newList);
+                    }
+            } catch (err) {
+                console.log(err);
+            }
+    };
 
+    
     const update = () => {
-    calculateSum();
-    }
+        calculateSum();
+    };
 
     return(
-    <SafeAreaView style={{}}>
-    <View style={styles.SubscriptionBorder}>
-    <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-    
-    <TextInput
-        onFocus={handleFocusName}
-        onBlur={handleBlurName}
-        style={[styles.InputStyle, {borderColor: isFocusedName ? '#E20D31' : '#807f7d'}]}
-        placeholder='Subscription Name'
-        value={addSubName}
-        onChangeText={val => setAddSubName(val)}
-    />
-    <View style={{paddingTop: 3}}>
-    <FakeCurrencyInput
-        onFocus={handleFocusCost}
-        onBlur={handleBlurCost}
-        style={[styles.InputStyle, {borderColor: isFocused ? '#E20D31' : '#807f7d'}]}
-        prefix="$ "
-        delimiter=","
-        separator="."
-        precision={2}
-        minValue={0}
-        onChangeValue={setAddSubCost}
-        value={addSubCost}
+    <SafeAreaView>
+        <View style={styles.SubscriptionBorder}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+                <TextInput
+                    onFocus={handleFocusName}
+                    onBlur={handleBlurName}
+                    style={[styles.InputStyle, {borderColor: isFocusedName ? '#E20D31' : '#807f7d'}]}
+                    placeholder='Subscription Name'
+                    value={addSubName}
+                    onChangeText={val => setAddSubName(val)}
+                />
+                <View style={{paddingTop: 3}}>
+                    <FakeCurrencyInput
+                        onFocus={handleFocusCost}
+                        onBlur={handleBlurCost}
+                        style={[styles.InputStyle, {borderColor: isFocused ? '#E20D31' : '#807f7d'}]}
+                        prefix="$ "
+                        delimiter=","
+                        separator="."
+                        precision={2}
+                        minValue={0}
+                        onChangeValue={setAddSubCost}
+                        value={addSubCost}
+                        />
+                </View>
+            </View>
+
+            <View style={{flexDirection: 'row', justifyContent:'space-around', paddingTop: 15}}>
+                <TouchableHighlight
+                    style={styles.ButtonStyle}
+                    underlayColor= '#94ABDB'
+                    disabled={addSubName === "" ? true : false}
+                    onPress={handleButton}>
+                        <Text style={styles.TextStyle}>Add To List</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    style={styles.ButtonStyle}
+                    underlayColor= '#94ABDB'
+                    onPress={()=> {
+                        navigation.navigate('AddExpenses', {
+                        subscribe: getSum,
+                        })
+                    }}>
+                        <Text style={styles.TextStyle}>Add More Expenses</Text>
+                </TouchableHighlight>
+            </View>
+
+            <View style={{alignItems: 'center', paddingTop:15}}>
+                <TouchableHighlight
+                    style={styles.UpdateButtonStyle}
+                    underlayColor= '#F693A4'
+                    onPress={update}>
+                    <Text style={styles.TextStyle}>{getSum ? "Update Completed": "Please Update"}</Text>
+                </TouchableHighlight>
+            </View>
+        </View>
+
+        <FlatList 
+            keyExtractor={(item) => item.id.toString()}
+            data={items}
+            renderItem={({ item }) => (
+                <CenterElements>
+                    <RoundedBorderExp>
+                        <View style={styles.ItemViewStyle}>
+                            <Text style={styles.ItemStyle}>{item.subName}</Text>
+                            <Text style={styles.ItemStyle}>{formatNumber(item.subCost, {delimiter: ",", prefix: "$", precision:2, separator: '.'})}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text onPress={()=> deleteItem(item.id)} style={{fontSize: 17, color: '#1281CB'}}>Delete</Text> 
+                        </View>
+                    </RoundedBorderExp>
+                </CenterElements>
+            )} 
         />
-    </View>
-    </View>
-    <View style={{flexDirection: 'row', justifyContent:'space-around', paddingTop: 15}}>
-    <TouchableHighlight
-        style={styles.ButtonStyle}
-        underlayColor= '#94ABDB'
-        disabled={addSubName === "" ? true : false}
-        onPress={handleButton}
-    >
-        <Text style={styles.TextStyle}>Add To List</Text>
-    </TouchableHighlight>
-
-    <TouchableHighlight
-        style={styles.ButtonStyle}
-        underlayColor= '#94ABDB'
-        onPress={()=> {
-            navigation.navigate('AddExpenses', {
-            subscribe: getSum,
-            })
-        }}
-    >
-        <Text style={styles.TextStyle}>Add More Expenses</Text>
-    </TouchableHighlight>
-    </View>
-    <View style={{alignItems: 'center', paddingTop:15}}>
-    <TouchableHighlight
-        style={styles.UpdateButtonStyle}
-        underlayColor= '#F693A4'
-        onPress={update}
-    >
-        <Text style={styles.TextStyle}>{getSum ? "Update Completed": "Please Update"}</Text>
-    </TouchableHighlight>
-    </View>
-
-    </View>
-
-
-    <FlatList 
-        keyExtractor={(item) => item.id.toString()}
-        data={items}
-        renderItem={({ item }) => (
-        <CenterElements>
-        <RoundedBorderExp>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 10, paddingRight: 5}}>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}>{item.subName}</Text>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}>{formatNumber(item.subCost, {delimiter: ",", prefix: "$", precision:2, separator: '.'})}</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-            <Text onPress={()=> deleteItem(item.id)} style={{fontSize: 17, color: '#1281CB'}}>Delete</Text> 
-            </View>
-            
-        </RoundedBorderExp>
-        </CenterElements>
-        )}
-        
-    />
-
     </SafeAreaView>
 
     );
 };
+
 const { width } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
 
     InputStyle: {
@@ -233,7 +221,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#E20D31'
     },
 
-    
+    ItemViewStyle: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        paddingTop: 10, 
+        paddingRight: 5
+    },
+
+    ItemStyle: {
+        fontSize: 25, 
+        fontWeight: 'bold'
+    },
 
     TextStyle: {
         color: '#FFFFFF',
