@@ -7,28 +7,13 @@ import { TouchableOpacity, TouchableHighlight } from "react-native-gesture-handl
 export const ExpenseList = ({ route, navigation}) => {
   
   const {subscribe, creditCards, autos, groceries, livings, entertainments} = route.params;
-  const[subsInfo, setSubsInfo] = useState(subscribe);
-  const[cardInfo, setCardInfo] = useState(creditCards);
-  const[autosInfo, setAutosInfo] = useState(autos);
-  const[groceriesInfo, setGroceriesInfo] = useState(groceries);
-  const[livingsInfo, setLivingsInfo] = useState(livings);
-  const[entertainmentInfo, setEntertainmentInfo] = useState(entertainments);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', function () {
       return true;
   });
   return () => {}
-  },[])
-
-  const getTotals = () => {
-    setSubsInfo(subscribe);
-    setCardInfo(creditCards);
-    setAutosInfo(autos);
-    setGroceriesInfo(groceries);
-    setLivingsInfo(livings);
-    setEntertainmentInfo(entertainments);
-  }
+  },[]);
 
     return (
     <SafeAreaView>
@@ -42,7 +27,7 @@ export const ExpenseList = ({ route, navigation}) => {
               <View style={{alignItems: 'center', marginTop: 5}}>
                 <Image style={{height: 50, width: 49}} source={require('../assets/images/subscription.png')} />
                 <Text style={styles.SubsrictionsStyle}>Subscriptions</Text>
-                <Text style={styles.SubsrictionsStyle}>{formatNumber(subsInfo, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.SubsrictionsStyle}>{formatNumber(subscribe, {delimiter: ",", prefix: "$"})}</Text>
               </View>
           </TouchableOpacity>
 
@@ -55,7 +40,7 @@ export const ExpenseList = ({ route, navigation}) => {
               <View style={{alignItems: 'center', marginTop: 5}}>
                 <Image style={{height: 50, width: 49}} source={require('../assets/images/creditCard.png')} />
                 <Text style={styles.CreditCardStyle}>Credit Cards</Text>
-                <Text style={styles.CreditCardStyle}>{formatNumber(cardInfo, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.CreditCardStyle}>{formatNumber(creditCards, {delimiter: ",", prefix: "$"})}</Text>
               </View>
           </TouchableOpacity>
         </View>
@@ -71,7 +56,7 @@ export const ExpenseList = ({ route, navigation}) => {
               <View style={{alignItems: 'center', marginTop: 5}}>
                 <Image style={{height: 50, width: 49}} source={require('../assets/images/car.png')} />
                 <Text style={styles.AutoLoanStyle}>Auto Loan</Text>
-                <Text style={styles.AutoLoanStyle}>{formatNumber(autosInfo, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.AutoLoanStyle}>{formatNumber(autos, {delimiter: ",", prefix: "$"})}</Text>
               </View>
           </TouchableOpacity>
 
@@ -83,7 +68,7 @@ export const ExpenseList = ({ route, navigation}) => {
                 <View style={{alignItems: 'center', marginTop: 5}}>
                   <Image style={{height: 50, width: 49}} source={require('../assets/images/groceries.png')} />
                   <Text style={styles.GroceryStyle}>Groceries</Text>
-                  <Text style={styles.GroceryStyle}>{formatNumber(groceriesInfo, {delimiter: ",", prefix: "$"})}</Text>
+                  <Text style={styles.GroceryStyle}>{formatNumber(groceries, {delimiter: ",", prefix: "$"})}</Text>
                 </View>
           </TouchableOpacity>
         </View>
@@ -99,7 +84,7 @@ export const ExpenseList = ({ route, navigation}) => {
               <View style={{alignItems: 'center', marginTop: 5}}>
                 <Image style={{height: 50, width: 49}} source={require('../assets/images/living.png')} />
                 <Text style={styles.LivingStyle}>Living</Text>
-                <Text style={styles.LivingStyle}>{formatNumber(livingsInfo, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.LivingStyle}>{formatNumber(livings, {delimiter: ",", prefix: "$"})}</Text>
               </View>
           </TouchableOpacity>
 
@@ -111,12 +96,12 @@ export const ExpenseList = ({ route, navigation}) => {
             <View style={{alignItems: 'center', marginTop: 5}}>
               <Image style={{height: 50, width: 49}} source={require('../assets/images/island.png')} />
               <Text style={styles.EntertainmentStyle}>Attraction/Misc</Text>
-              <Text style={styles.EntertainmentStyle}>{formatNumber(entertainmentInfo, {delimiter: ",", prefix: "$"})}</Text>
+              <Text style={styles.EntertainmentStyle}>{formatNumber(entertainments, {delimiter: ",", prefix: "$"})}</Text>
             </View>
           </TouchableOpacity>
         </View>
 
-        <View style={{alignItems: 'center', justifyContent: 'center', margin: 50}}>
+        <View style={styles.DashboardButtonStyle}>
           <TouchableHighlight
             style={styles.ButtonStyle}
             underlayColor= '#94ABDB'
@@ -132,21 +117,12 @@ export const ExpenseList = ({ route, navigation}) => {
             }}>
               <Text style={styles.TextStyle}>Go To Dashboard</Text>
           </TouchableHighlight>
-
-          <View style={{alignItems: 'center', paddingTop:15}}>
-            <TouchableHighlight
-              style={styles.ButtonStyle}
-              underlayColor= '#94ABDB'
-              onPress={getTotals}>
-                <Text style={styles.TextStyle}>Update Totals</Text>
-            </TouchableHighlight>
-          </View>
         </View>
     </SafeAreaView>
     );
 };
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   
@@ -213,5 +189,11 @@ const styles = StyleSheet.create({
   TextStyle: {
     color: '#FFFFFF',
     fontSize: 17,
-}
-})
+  },
+
+  DashboardButtonStyle: {
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    marginTop: height - 660
+  }
+});

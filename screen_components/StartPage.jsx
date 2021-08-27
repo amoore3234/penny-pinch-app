@@ -21,7 +21,7 @@ export const StartPage = ({navigation}) => {
     return (
       <Center>
         <Text style={styles.HeadingStyle}>Welcome to Penny Pinch{"\n"}</Text>
-        <Text style={{fontSize: 19, paddingBottom: 10}}>Please enter the desired budget amount {"\n"}and savings goal amount to start saving!{'\n'}</Text>
+        <Text style={{fontSize: 17, paddingBottom: 10}}>Please enter the desired budget amount {"\n"}and savings goal amount to start saving!{'\n'}</Text>
       
           <View>
             <Text style={styles.SubHeadingStyle}>Budget Amount</Text>

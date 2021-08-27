@@ -6,7 +6,9 @@ import { useState, useEffect } from 'react';
 import { Text, StyleSheet, View, SafeAreaView, Image, BackHandler, Dimensions} from 'react-native';
 import { SquareRoundedBorderSummary } from '../styles_component/SquareRoundedBorderSummary';
 import { CenterElements } from '../styles_component/CenterElements';
+import { CenterBudgetAndSavings } from '../styles_component/CenterBudgetAndSavings';
 import { RoundedBorderSummary } from '../styles_component/RoundedBorderSummary';
+import { RoundedBorderBudget } from '../styles_component/RoundedBorderBudget';
 import { RoundedBorderChart } from '../styles_component/RoundedBorderChart';
 import { TouchableHighlight } from "react-native-gesture-handler";
 
@@ -20,21 +22,18 @@ export const MonthlySummary = ({route, navigation}) => {
   
   const[currentDate, setCurrentDate] = useState('');
   const[monthBudget, setMonthBudget] = useState(monthlyBudget);
-  const[subsAmount, setSubsAmount] = useState(subs);
   const[savingsTotal, setSavingsTotal] = useState(savings);
-  const[cardAmount, setCardAmount] = useState(creditCard);
-  const[autoAmount, setAutoAmount] = useState(auto);
-  const[groceryAmount, setGroceryAmount] = useState(grocery);
-  const[livingAmount, setLivingAmount] = useState(living);
-  const[entertainmentAmount, setEntertainmentAmount] = useState(entertainment);
+  const[debtTotal, setDebtTotal] = useState(0);
 
   
   const[editMode, setEditMode] = useState(false);
+  const[debtView, setDebtView] = useState(false);
   const[editModeSavings, setEditModeSavings] = useState(false);
   const[updateBudget, setUpdateBudget] = useState(monthlyBudget);
   const[updateSavings, setUpdateSavings] = useState(savings);
-  const[budgetTitle, setBudgetTitle] = useState("Press value to update budget.");
-  const[savingsTitle, setSavingsTitle] = useState("Press value to update savings.");
+  const[savingsGoalTitle, setSavingsGoalTitle] = useState("Savings Goal");
+  const[budgetInstructions, setBudgetInstructions] = useState("Press value to update budget.");
+  const[savingsInstructions, setSavingsInstructions] = useState("Press value to update savings.");
 
   const[isFocused, setIsFocused] = useState(false);
   const[isFocusedSavings, setIsFocusedSavings] = useState(false);
@@ -60,52 +59,59 @@ export const MonthlySummary = ({route, navigation}) => {
       updateBudget ? setMonthBudget(updateBudget - (subs + creditCard + auto + grocery + living + entertainment)) 
     : setMonthBudget(monthlyBudget - (subs + creditCard + auto + grocery + living + entertainment));
     };
-    setSubsAmount(subs);
-    setCardAmount(creditCard);
-    setAutoAmount(auto);
-    setGroceryAmount(grocery);
-    setLivingAmount(living);
-    setEntertainmentAmount(entertainment);
   }
 
   const updateEdit = () => {
     setEditMode(false);
     setMonthBudget(updateBudget);
-    setBudgetTitle("");
+    setBudgetInstructions("");
   }
 
   const defaultEdit = () => {
     setEditMode(!editMode);
-    setBudgetTitle("");
+    setBudgetInstructions("");
   }
 
   const updateSavingsEdit = () => {
     setEditModeSavings(false);
     setSavingsTotal(updateSavings);
-    setSavingsTitle("");
+    setSavingsInstructions("");
   }
 
   const defaultSavingsEdit = () => {
     setEditModeSavings(!editModeSavings);
-    setSavingsTitle("");
+    setSavingsInstructions("");
+  }
+
+  const calculateDebt = () => {
+    setDebtTotal(auto + living + grocery + creditCard + subs + entertainment);
+    setDebtView(!debtView);
+    setSavingsGoalTitle("Debt Total");
+  }
+
+  const defaultSavingsView = () => {
+    setDebtView(false);
+    setSavingsTotal(savings);
+    setSavingsGoalTitle("Savings Goal");
+    
   }
 
   const data=[
-    {x: 1, y: autoAmount},
-    {x: 2, y: livingAmount},
-    {x: 3, y: groceryAmount},
-    {x: 4, y: cardAmount},
-    {x: 5, y: subsAmount},
-    {x: 6, y: entertainmentAmount}
+    {x: 1, y: auto},
+    {x: 2, y: living},
+    {x: 3, y: grocery},
+    {x: 4, y: creditCard},
+    {x: 5, y: subs},
+    {x: 6, y: entertainment}
   ];
   
 
   return (
-    <SafeAreaView style={{flex: 1, marginBottom: 10}}>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <CenterElements>
+    <SafeAreaView style={{marginTop: 5}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <CenterBudgetAndSavings>
             <SquareRoundedBorderSummary>
-              <Text style={{fontSize: 13, position: 'absolute', top: 5, fontWeight: 'bold', color: '#1281CB'}}>{budgetTitle}</Text>
+              <Text style={styles.InstructionTitle}>{budgetInstructions}</Text>
               <Text style={{fontSize: 20, fontWeight: 'bold'}}>{currentDate}'s Budget</Text>
               {editMode ? 
               <View>
@@ -139,19 +145,31 @@ export const MonthlySummary = ({route, navigation}) => {
                 </View>
               </View>
             
-              : <Text 
+              : 
+              <View style={{alignItems: 'center'}}>
+                <Text 
                   onPress={defaultEdit} 
                   style={[styles.CurrencyStyle, { color: monthBudget < savingsTotal ? '#E20D31': '#048F1B' }]}>
-                    { formatNumber(monthBudget, {delimiter: ",", prefix: "$"})}
+                    {formatNumber(monthBudget, {delimiter: ",", prefix: "$"})}
                 </Text>
+                
+                <View style={{position: 'relative', top: 16}}>
+                  <TouchableHighlight
+                      style={styles.BudgetButton}
+                      underlayColor= '#94ABDB'
+                      onPress={expenseTotal}>
+                        <Text style={styles.TextStyle}>Update Budget</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
             }
             </SquareRoundedBorderSummary>
-          </CenterElements>
+          </CenterBudgetAndSavings>
 
-        <CenterElements>
+        <CenterBudgetAndSavings>
           <SquareRoundedBorderSummary>
-            <Text style={{fontSize: 13, position: 'absolute', top: 5, fontWeight: 'bold', color: '#1281CB'}}>{savingsTitle}</Text>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>Savings Goal</Text>
+            <Text style={styles.InstructionTitle}>{savingsInstructions}</Text>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>{savingsGoalTitle}</Text>
             {editModeSavings ? 
               <View>
                 <FakeCurrencyInput
@@ -183,12 +201,38 @@ export const MonthlySummary = ({route, navigation}) => {
                   </TouchableHighlight>
                 </View>
               </View>
+              : 
+              debtView ?
+              <View style={{alignItems:'center'}}>
+              <Text style={styles.DebtStyle}>{formatNumber(debtTotal, {delimiter: ",", prefix: "$"})}</Text>
 
-              : <Text onPress={defaultSavingsEdit} style={styles.CurrencyStyle}>{formatNumber(savingsTotal, {delimiter: ",", prefix: "$"})}</Text>
+                <View style={{position: 'relative', top: 16}}>
+                  <TouchableHighlight
+                      style={styles.BudgetButton}
+                      underlayColor= '#94ABDB'
+                      onPress={defaultSavingsView}>
+                        <Text style={styles.TextStyle}>Back to Savings</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+              :
+              <View style={{alignItems:'center'}}>
+                <Text onPress={defaultSavingsEdit} style={styles.CurrencyStyle}>{formatNumber(savingsTotal, {delimiter: ",", prefix: "$"})}</Text>
+                
+                <View style={{position: 'relative', top: 16}}>
+                  <TouchableHighlight
+                      style={styles.BudgetButton}
+                      underlayColor= '#94ABDB'
+                      onPress={calculateDebt}>
+                        <Text style={styles.TextStyle}>Calculate Debt</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
             }
           </SquareRoundedBorderSummary>
-        </CenterElements>
+        </CenterBudgetAndSavings>
         </View>
+        
 
         <CenterElements>
           <RoundedBorderSummary>
@@ -197,49 +241,49 @@ export const MonthlySummary = ({route, navigation}) => {
             <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: 17}}>
               <View style={{flexDirection: 'row'}}>
                 <Image style={{height: 35, width: 36}} source={require('../assets/images/subscription.png')} />  
-                <Text style={styles.ExpenseSummarySub}>{formatNumber(subsAmount, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.ExpenseSummarySub}>{formatNumber(subs, {delimiter: ",", prefix: "$"})}</Text>
               </View>
               
               <View style={{flexDirection: 'row'}}>
                 <Image style={{height: 35, width: 36}} source={require('../assets/images/creditCard.png')} />  
-                <Text style={styles.ExpenseSummaryCard}>{formatNumber(cardAmount, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.ExpenseSummaryCard}>{formatNumber(creditCard, {delimiter: ",", prefix: "$"})}</Text>
               </View>
 
               <View style={{flexDirection: 'row'}}>
                 <Image style={{height: 35, width: 36}} source={require('../assets/images/car.png')} />  
-                <Text style={styles.ExpenseSummaryAuto}>{formatNumber(autoAmount, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.ExpenseSummaryAuto}>{formatNumber(auto, {delimiter: ",", prefix: "$"})}</Text>
               </View>
             </View>
 
             <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: 20}}>
               <View style={{flexDirection: 'row'}}>
                 <Image style={{height: 35, width: 36}} source={require('../assets/images/groceries.png')} />  
-                <Text style={styles.ExpenseSummaryGrocery}>{formatNumber(groceryAmount, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.ExpenseSummaryGrocery}>{formatNumber(grocery, {delimiter: ",", prefix: "$"})}</Text>
               </View>
 
               <View style={{flexDirection: 'row'}}>
                 <Image style={{height: 35, width: 36}} source={require('../assets/images/living.png')} />  
-                <Text style={styles.ExpenseSummaryLiving}>{formatNumber(livingAmount, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.ExpenseSummaryLiving}>{formatNumber(living, {delimiter: ",", prefix: "$"})}</Text>
               </View>
 
               <View style={{flexDirection: 'row'}}>
                 <Image style={{height: 35, width: 36}} source={require('../assets/images/island.png')} />  
-                <Text style={styles.ExpenseSummaryEntertainment}>{formatNumber(entertainmentAmount, {delimiter: ",", prefix: "$"})}</Text>
+                <Text style={styles.ExpenseSummaryEntertainment}>{formatNumber(entertainment, {delimiter: ",", prefix: "$"})}</Text>
               </View>
             </View>
             
             <View style={{ margin: 17, alignItems: 'center', justifyContent: 'center'}}>
               <TouchableHighlight
-                  style={styles.ButtonStyle}
+                  style={styles.ExpenseButton}
                   underlayColor= '#94ABDB'
                   onPress={()=> {
                   navigation.navigate('AddExpenses', {
-                    subscribe: subsAmount,
-                    creditCards: cardAmount,
-                    autos: autoAmount,
-                    groceries: groceryAmount,
-                    livings: livingAmount,
-                    entertainments: entertainmentAmount,
+                    subscribe: subs,
+                    creditCards: creditCard,
+                    autos: auto,
+                    groceries: grocery,
+                    livings: living,
+                    entertainments: entertainment,
                     })
                   }}>
                   <Text style={styles.TextStyle}>Add Expenses</Text>
@@ -251,7 +295,7 @@ export const MonthlySummary = ({route, navigation}) => {
     <CenterElements>
         <RoundedBorderChart>
           <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>Total Expense Chart</Text>
-            <View style={{paddingLeft: 25, position: 'relative', bottom: 40}}>
+            <View style={{paddingLeft: 27, position: 'relative', bottom: 25}}>
               <VictoryChart height={height - 500} width={412} domainPadding={18} theme={VictoryTheme.material}>
                 <VictoryAxis 
                   tickValues={[1, 2, 3, 4, 5, 6]} 
@@ -279,14 +323,7 @@ export const MonthlySummary = ({route, navigation}) => {
                 </VictoryChart>
             </View>
 
-            <View style={{ position:'absolute', bottom: 7}}>
-                <TouchableHighlight
-                    style={styles.ButtonStyle}
-                    underlayColor= '#94ABDB'
-                    onPress={expenseTotal}>
-                    <Text style={styles.TextStyle}>Update Report</Text>
-                </TouchableHighlight>
-            </View>
+            
         </RoundedBorderChart>
     </CenterElements>
   </SafeAreaView>
@@ -297,11 +334,25 @@ export const MonthlySummary = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
 
+    InstructionTitle: {
+      fontSize: 13, 
+      position: 'absolute', 
+      top: 0, 
+      fontWeight: 'bold', 
+      color: '#1281CB'
+    },
+
     CurrencyStyle: {
         fontSize: 40, 
         fontWeight: 'bold', 
         color: '#048F1B'
     },
+
+    DebtStyle: {
+      fontSize: 40, 
+      fontWeight: 'bold', 
+      color: '#E20D31'
+  },
 
     InputStyle: {
       borderBottomWidth:3,
@@ -347,14 +398,23 @@ const styles = StyleSheet.create({
         color: '#0C6705'
     },
 
-    ButtonStyle: {
+    BudgetButton: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: 310,
+        width: 160,
         height: 35,
         borderRadius: 5,
         backgroundColor: '#185FEE'
     },
+
+    ExpenseButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 310,
+      height: 35,
+      borderRadius: 5,
+      backgroundColor: '#185FEE'
+  },
 
     TextStyle: {
         color: '#FFFFFF',

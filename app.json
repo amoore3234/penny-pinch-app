@@ -2,7 +2,7 @@
   "expo": {
     "name": "penny-pinch-app",
     "slug": "penny-pinch-app",
-    "version": "1.0.0",
+    "version": "4.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/images/icon.png",
@@ -26,7 +26,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.aime.pennypinch"
+      "package": "com.aime.pennypinch",
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"
