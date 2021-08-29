@@ -155,7 +155,6 @@ export const MonthlySummary = ({route, navigation}) => {
                 
                 <View style={{position: 'relative', top: 16}}>
                   <TouchableHighlight
-                      disabled={isPressed}
                       style={styles.BudgetButton}
                       underlayColor= '#94ABDB'
                       onPress={expenseTotal}>
