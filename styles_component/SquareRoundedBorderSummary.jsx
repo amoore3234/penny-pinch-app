@@ -16,7 +16,7 @@ export const SquareRoundedBorderSummary = ({children}) => {
             borderWidth: 1,
             margin: 0,
             width: width/2 - 15,
-            height: 160,
+            height: 165,
             elevation: 5
             
         }}>

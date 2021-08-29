@@ -8,7 +8,6 @@ import { SquareRoundedBorderSummary } from '../styles_component/SquareRoundedBor
 import { CenterElements } from '../styles_component/CenterElements';
 import { CenterBudgetAndSavings } from '../styles_component/CenterBudgetAndSavings';
 import { RoundedBorderSummary } from '../styles_component/RoundedBorderSummary';
-import { RoundedBorderBudget } from '../styles_component/RoundedBorderBudget';
 import { RoundedBorderChart } from '../styles_component/RoundedBorderChart';
 import { TouchableHighlight } from "react-native-gesture-handler";
 
@@ -56,8 +55,8 @@ export const MonthlySummary = ({route, navigation}) => {
 
   const expenseTotal = () => {
     {
-      updateBudget ? setMonthBudget(updateBudget - (subs + creditCard + auto + grocery + living + entertainment)) 
-    : setMonthBudget(monthlyBudget - (subs + creditCard + auto + grocery + living + entertainment));
+      updateBudget ? setMonthBudget(updateBudget - (subs + creditCard + auto + grocery + living + entertainment))
+    : setMonthBudget(monthBudget - (subs + creditCard + auto + grocery + living + entertainment))
     };
   }
 
@@ -70,6 +69,7 @@ export const MonthlySummary = ({route, navigation}) => {
   const defaultEdit = () => {
     setEditMode(!editMode);
     setBudgetInstructions("");
+    setUpdateBudget(monthBudget);
   }
 
   const updateSavingsEdit = () => {
@@ -86,7 +86,7 @@ export const MonthlySummary = ({route, navigation}) => {
   const calculateDebt = () => {
     setDebtTotal(auto + living + grocery + creditCard + subs + entertainment);
     setDebtView(!debtView);
-    setSavingsGoalTitle("Debt Total");
+    setSavingsGoalTitle("Expense Total");
   }
 
   const defaultSavingsView = () => {
@@ -155,6 +155,7 @@ export const MonthlySummary = ({route, navigation}) => {
                 
                 <View style={{position: 'relative', top: 16}}>
                   <TouchableHighlight
+                      disabled={isPressed}
                       style={styles.BudgetButton}
                       underlayColor= '#94ABDB'
                       onPress={expenseTotal}>
@@ -224,7 +225,7 @@ export const MonthlySummary = ({route, navigation}) => {
                       style={styles.BudgetButton}
                       underlayColor= '#94ABDB'
                       onPress={calculateDebt}>
-                        <Text style={styles.TextStyle}>Calculate Debt</Text>
+                        <Text style={styles.TextStyle}>Calculate Expenses</Text>
                   </TouchableHighlight>
                 </View>
               </View>
