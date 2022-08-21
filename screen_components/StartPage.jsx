@@ -17,7 +17,8 @@ export const StartPage = ({navigation}) => {
     const handleBlurBudget = () => setIsFocused(false);
     const handleFocusSavings = () => setIsFocusedSavings(true);
     const handleBlurSavings = () => setIsFocusedSavings(false);
-  
+
+    
     return (
       <Center>
         <Text style={styles.HeadingStyle}>Welcome to Penny Pinch{"\n"}</Text>
@@ -71,6 +72,7 @@ export const StartPage = ({navigation}) => {
                 <Text style={styles.TextStyle}>Next</Text>
             </TouchableHighlight>
           </View>
+
       </Center>
   
     );
@@ -107,10 +109,10 @@ export const StartPage = ({navigation}) => {
       height: 40,
       borderRadius: 5,
       backgroundColor: '#261FE6'
-  },
+    },
 
-  TextStyle: {
-    color: '#FFFFFF',
-    fontSize: 19,
-}
+    TextStyle: {
+      color: '#FFFFFF',
+      fontSize: 19,
+    }
 });

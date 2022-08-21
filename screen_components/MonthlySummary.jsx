@@ -299,7 +299,7 @@ export const MonthlySummary = ({route, navigation}) => {
               <VictoryChart height={height - 500} width={412} domainPadding={18} theme={VictoryTheme.material}>
                 <VictoryAxis 
                   tickValues={[1, 2, 3, 4, 5, 6]} 
-                  tickFormat={["Auto", "Cards", "Living", "Food", "Subs", "Misc"]} 
+                  tickFormat={["Auto", "Living", "Food", "Cards", "Subs", "Misc"]} 
                   style={{tickLabels: {fontSize: 15, fontWeight: 'bold'}}} 
                   />
                     <VictoryAxis dependentAxis
